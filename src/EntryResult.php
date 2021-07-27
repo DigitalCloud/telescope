@@ -141,7 +141,7 @@ class EntryResult implements JsonSerializable
         })->when($this->queries_count !== null, function ($items) {
             return $items->mergeRecursive([
                 'content' => [
-                    'queires_count' => $this->queries_count
+                    'queries_count' => $this->queries_count
                 ]
             ]);
         })->all();

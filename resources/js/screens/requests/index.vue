@@ -42,7 +42,7 @@
                 <span v-else>-</span>
             </td>
             <td class="table-fit">
-                <span v-if="slotProps.entry.content.queires_count">{{slotProps.entry.content.queires_count}} </span>
+                <span v-if="slotProps.entry.content.queries_count">{{slotProps.entry.content.queries_count}} </span>
                 <span v-else>0</span>
             </td>
 

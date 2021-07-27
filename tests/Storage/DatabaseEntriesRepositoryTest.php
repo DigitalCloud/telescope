@@ -15,11 +15,15 @@ class DatabaseEntriesRepositoryTest extends FeatureTestCase
         $repository = new DatabaseEntriesRepository('testbench');
 
         $result = $repository->find($entry->uuid)->jsonSerialize();
-
         $this->assertSame($entry->uuid, $result['id']);
         $this->assertSame($entry->batch_id, $result['batch_id']);
         $this->assertSame($entry->type, $result['type']);
-        $this->assertSame($entry->content, $result['content']);
+
+        // add queries_count because it is append from repository by default
+        $this->assertSame(
+            array_merge($entry->content,['queries_count'=> '0']),
+            $result['content']
+        );
 
         // Why is sequence always null? DatabaseEntriesRepository::class#L60
         $this->assertNull($result['sequence']);
