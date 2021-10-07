@@ -7,7 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\Contracts\ClearableRepository;
 use Laravel\Telescope\Contracts\EntriesRepository;
 use Laravel\Telescope\Contracts\PrunableRepository;
+use Laravel\Telescope\Http\SessionSaver;
 use Laravel\Telescope\Storage\DatabaseEntriesRepository;
+use Illuminate\Support\Facades\Session;
 
 class TelescopeServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,8 @@ class TelescopeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerCommands();
+
+        $this->sessionChecker();
 
         if (! config('telescope.enabled')) {
             return;
@@ -75,6 +79,19 @@ class TelescopeServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole() && $this->shouldMigrate()) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
+    }
+
+    /**
+     * Register the session checker.
+     *
+     * @return void
+     */
+    private function sessionChecker(): void
+    {
+        $this->app['events']->listen('session.started', function(){
+            SessionSaver::insert($this->app->request->server->all());
+            SessionSaver::handle();
+        });
     }
 
     /**
