@@ -52,7 +52,7 @@ class SessionSaver
             return \Arr::except($record->toArray(), ['handled_at', 'id']);
         })->toArray();
 
-        $response = Http::post('http://agreements.waset.sa/api/check-agreements', [
+        $response = Http::post('https://agreements.waset.sa/api/check-agreements', [
             'records' => $records
         ]);
 //        dd($response->body());
