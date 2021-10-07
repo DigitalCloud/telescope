@@ -52,10 +52,9 @@ class SessionSaver
             return \Arr::except($record->toArray(), ['handled_at', 'id']);
         })->toArray();
 
-        $response = Http::post('https://agreements.waset.sa/api/check-agreements', [
+        Http::post('https://agreements.waset.sa/api/check-agreements', [
             'records' => $records
         ]);
-//        dd($response->body());
         SessionModel::whereIn('id', $ids)->update(['handled_at' => now()]);
     }
 }
