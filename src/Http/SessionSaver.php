@@ -21,7 +21,7 @@ class SessionSaver
                     "HTTP_HOST" => $data["HTTP_HOST"],
                     "HTTP_USER_AGENT" => $data["HTTP_USER_AGENT"],
                 ],[
-                    "session_data" => $data,
+                    "session_data" => array_merge($data, ['USER_IP'=> $_SERVER['HTTP_CF_CONNECTING_IP'] ?? null]),
                 ]
             );
         }
